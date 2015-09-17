@@ -1,9 +1,9 @@
 ---
 # Elasticsearch Ansible Tasks
 
-# Configure timezone
-- name: Configuring timezone
-  shell: echo {{ elasticsearch_timezone }} > /etc/timezone; dpkg-reconfigure --frontend noninteractive tzdata
+## Configure timezone
+#- name: Configuring timezone
+#  shell: echo {{ elasticsearch_timezone }} > /etc/timezone; dpkg-reconfigure --frontend noninteractive tzdata
 
 # Update repos
 - name: Install python-software-properties
