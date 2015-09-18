@@ -6,11 +6,11 @@
 #  shell: echo {{ elasticsearch_timezone }} > /etc/timezone; dpkg-reconfigure --frontend noninteractive tzdata
 
 # Update repos
-- name: Install python-software-properties
-  apt: pkg=python-software-properties state=present update_cache=yes cache_valid_time={{apt_cache_valid_time}}
-- name: Update repositories
-  apt_repository: repo={{ item }} state=present update_cache=yes
-  with_items: elasticsearch_apt_repos
+#- name: Install python-software-properties
+#  apt: pkg=python-software-properties state=present update_cache=yes cache_valid_time={{apt_cache_valid_time}}
+#- name: Update repositories
+#  apt_repository: repo={{ item }} state=present update_cache=yes
+#  with_items: elasticsearch_apt_repos
 
 # Accept Oracle license
 - name: Accept Oracle license prior JDK installation
@@ -39,7 +39,10 @@
 
 # Download deb if needed
 - name: Download Elasticsearch deb
-  get_url: url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
+  get_url: url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440 use_proxy=yes
+  environment: 
+    http_proxy: "{{http_proxy}}"
+    https_proxy: "{{http_proxy}}"
   when: version_exists.stdout == 'no'
 
 # Uninstall previous version if applicable
