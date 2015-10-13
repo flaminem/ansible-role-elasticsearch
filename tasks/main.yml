@@ -62,10 +62,12 @@
 - name: Configuring directories
   file: path={{ elasticsearch_log_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
   when: elasticsearch_log_dir is defined
-- file: path={{ elasticsearch_data_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
-  when: elasticsearch_data_dir is defined
-- file: path={{ elasticsearch_work_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
-  when: elasticsearch_work_dir is defined
+- file: path={{ item }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
+  with_items: "{{elasticsearch_data_dirs}}"
+  when: elasticsearch_data_dirs is defined
+- file: path={{ item }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
+  with_items: "{{elasticsearch_work_dirs}}"
+  when: elasticsearch_work_dirs is defined
 - file: path={{ elasticsearch_conf_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
   when: elasticsearch_conf_dir is defined
 - file: path={{ elasticsearch_plugin_dir }} state=absent

@@ -177,8 +177,8 @@ path.conf: {{ elasticsearch_conf_dir }}
 # Path to directory where to store index data allocated for this node.
 #
 # path.data: /path/to/data
-{% if elasticsearch_data_dir is defined %}
-path.data: {{ elasticsearch_data_dir }}
+{% if elasticsearch_data_dirs is defined %}
+path.data: {{ elasticsearch_data_dirs | join(',') }}
 {% endif %}
 
 # Can optionally include more than one location, causing data to be striped across
@@ -190,8 +190,8 @@ path.data: {{ elasticsearch_data_dir }}
 # Path to temporary files:
 #
 # path.work: /path/to/work
-{% if elasticsearch_work_dir is defined %}
-path.work: {{ elasticsearch_work_dir }}
+{% if elasticsearch_work_dirs is defined %}
+path.work: {{ elasticsearch_work_dirs | join(',') }}
 {% endif %}
 
 # Path to log files:
